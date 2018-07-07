@@ -1,9 +1,9 @@
 # Variant calling algorithm
 You need to run variant_calling.py scrypt with appropriate option:
--v is used for variant calling algorithm
--t is used for tests, and you also need to enter number of test
--c is used for comparison
--h is for help
+-v is used for variant calling algorithm,
+-t is used for tests, and you also need to enter number of test,
+-c is used for comparison and
+-h is for help.
 
 Usage: 
 
