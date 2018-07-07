@@ -11,7 +11,7 @@ Usage:
        
        variant_calling.py [-th] [testType] ...
        
-Arguments:
+testType:
 
   1 variantCallingCore test
   
@@ -28,8 +28,6 @@ Options:
   -t Argument       execute tests
   
   -c       compare results
-  
-"""
 
 Result of variant calling algortihm will be written in output/VCF_impl.vcf file.
 
