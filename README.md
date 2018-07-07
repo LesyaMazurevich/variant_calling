@@ -1,23 +1,32 @@
 # Variant calling algorithm
+You need to run variant_calling.py scrypt with appropriate option:
+-v is used for variant calling algorithm
+-t is used for tests, and you also need to enter number of test
+-c is used for comparison
+-h is for help
 
-After running variant_calling.py scrypt, you need to enter appropriate value to continue:
+"""Usage: variant_calling.py [-vch]  ...
+       variant_calling.py [-th] [testType] ...
+        
+Arguments:
+  1 variantCallingCore test
+  2 variantCalling test
+  3 addVarinatToIntVcArray test
+Options:
+  -h       help
+  -v       execute variant calling
+  -t Argument       execute tests
+  -c       compare results
+"""
 
-1 - execute variant calling algorithm
+Result of variant calling algortihm will be written in output/VCF_impl.vcf file.
 
-2 - execute variantCallingCore function test
+In resources/VCF_ref.vcf file are referent results of variant calling executed with bcftools.
 
-3 - execute variantCalling function test
+To compare results of implemented algortihm and bcftools, you need to run compare option, 
+it uses output/VCF_impl.vcf and resources/VCF_ref.vcf files, and they need to be in the same folder as this scrypt.
 
-4 - execute addVariantToIncArray function test
-
-Result of variant calling algortihm will be written in VCF_impl.vcf file.
-
-In VCF_ref.vcf file are referent results of variant calling executed with bcftools.
-
-To compare results of implemented algortihm and bcftools, you need to run compare.py scrypt, 
-it uses VCF_impl.vcf and VCF_ref.vcf files, and they need to be in the same folder as this scrypt.
-
-Results of comparison are written in compare_results.txt file.
+Results of comparison are written in output/compare_results.txt file.
 
 For more details you can check presentation variant_calling_pm173351m.pptx
 
