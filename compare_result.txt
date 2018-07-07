@@ -1,0 +1,8 @@
+Samtools vcf count of variants: 3176
+Implemented vcf count of variants: 2201
+True positives: 1887
+False positives: 1289
+False negatives: 314
+Precision: 0.5941435768261965
+Recall: 0.8573375738300772
+F-score: 0.7018783708387577
