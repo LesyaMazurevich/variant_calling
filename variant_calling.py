@@ -1,3 +1,16 @@
+"""Usage: variant_calling.py [-vch]  ...
+       variant_calling.py [-th] [testType] ...
+        
+Arguments:
+  1 variantCallingCore test
+  2 variantCalling test
+  3 addVarinatToIntVcArray test
+Options:
+  -h       help
+  -v       execute variant calling
+  -t Argument       execute tests
+  -c       compare results
+"""
 import os 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 from enum import Enum
@@ -5,13 +18,16 @@ from operator import itemgetter
 import math
 import sys
 import msvcrt
+from docopt import docopt
+import test
+import compare
 
 ################# CONSTANTS #################
 class Constants(object):
-    kVCF_PATH = '\VCF_impl.vcf'
+    kVCF_PATH = '\\output\VCF_impl.vcf'
     kVCF_HEADER = '##fileformat=VCFv4.2\n'
     kVCF_COLUMNS = '#CHROM\tPOS\tREF\tALT\tFORMAT\tSAMPLE_ID\n'
-    kPILEUP_FILE_PATH = '\pileup.txt'
+    kPILEUP_FILE_PATH = '\\resources\pileup.txt'
 
 ############# GLOBAL VARIABLES ##############
 
@@ -137,15 +153,13 @@ def variantCalling():
         
 # Run the program
 if __name__ == '__main__':
-    print("Enter appropriate value to continue:")
-    print("1 to execute variant calling algorithm")
-    print("2 to execute variantCallingCore function test")
-    print("3 to execute variantCalling function test")
-    print("4 to execute addVarinatToIntVcArray function test")
-    m = msvcrt.getch().decode('utf-8')
-    print(m)
-    global VCFfile
-    if m == '1':
+    arguments = docopt(__doc__)
+    if arguments['-c']:
+        compare.compareFunction()
+    if arguments['-t']:
+        print("t = " + arguments['-t'])
+        test.testFunction(arguments['-t'])
+    if arguments['-v']:
         print("Executing variant calling algorithm...")
         print("Initialising, please wait...")
         VCFfile = open(dir_path + Constants.kVCF_PATH, "a+")
@@ -164,46 +178,6 @@ if __name__ == '__main__':
             
             del content 
             
-    elif m == '2':
-        print("Executing variantCallingCore function test...")
-        VCFfile = open(dir_path + "\VCF_test.vcf", "a+")
-        VCFfile.seek(0)
-        VCFfile.truncate()
-        VCFfile.seek(0)
-        content = [["1", "336", "C", "34", "A$A$A$A$AAAA,.,AA,,..AAAAaaaa...CcTtGg", "test"], ["1", "400", "A", "12", "...,,+2AC+2AC+2AC+2AC+2AC+2AC+2AC+2AC+2AC+2AC+2AC+2AC,.,...,", "test"], ["1", "500", "A", "12", "...,,-2AC-2AC-2AC-2AC-2AC-2AC-2AC-2AC-2AC-2AC-2AC-2AC,.,...,", "test"], ["1", "501", "A", "1", ".", "test"], ["1", "502", "C", "1", ".", "test"]]
-        variantCalling()
-        VCFfile.seek(0)
-        #print(VCFfile.read())
-        if VCFfile.read() == "1	336	C	A	GT	0/1\n1	400	A	AAC	GT	1/1\n1	500	AAC	A	GT	1/1\n":
-            print("Test run succesufully...")
-        else:
-            print("Test fail...")
-    elif m == '3':
-        print("Executing variantCalling function test...")
-        incVcArray = variantCallingCore(["1", "336", "C", "34", "A$A$A$A$AAAA,.,.,,,..AAAAaaaa...CcTtGg+2AC", "test"])
-        sum = 0
-        for x in incVcArray:
-            sum += incVcArray[0][0]
-        if sum != incVcArray[3][0]:
-            print("Test fail...")
-        if incVcArray[0][0] == 12 and incVcArray[1][0] == 2 and incVcArray[2][0] == 2 and incVcArray[3][0] == 16 and incVcArray[4][0] == 2 and incVcArray[5][0] == 1:
-            print("Test run succesufully...")
-        else:
-            print("Test fail...")
-    elif m == '4':
-        print("Executing addVarinatToIntVcArray function test...")
-        p = ['.', 'T', 'G', 'A', 'C']
-        incVcArray = [[0, p[i]] for i in range(len(p))]
-        addVarinatToIntVcArray(incVcArray, "+2AC")
-        if incVcArray[5][1] == "+2AC":
-            print("Insertion added succesufully...")
-            addVarinatToIntVcArray(incVcArray, "-2AT")
-            if incVcArray[6][1] == "-2AT":
-                print("Deletion added succesufully...")
-                print("Function addVarinatToIntVcArray executed succesufully...")
-            else:
-                print("Test failed due to deletion adding!")
-        else:
-            print("Test failed due to insertion adding!")
-    else:
-        print("Entered value is not allowed...")
+            
+            
+    

@@ -6,9 +6,9 @@ import sys
 
 ################# CONSTANTS #################
 class Constants(object):
-    kVCF_PATH = '\VCF_impl.vcf'
-    kVCF_SAMTOOLS_PATH = '\VCF_ref.vcf'
-    kVCF_RESULT = '\compare_result.txt'
+    kVCF_PATH = '\\output\VCF_impl.vcf'
+    kVCF_SAMTOOLS_PATH = '\\resources\VCF_ref.vcf'
+    kVCF_RESULT = '\\output\compare_result.txt'
     
 ############# GLOBAL VARIABLES ##############
 
@@ -20,8 +20,7 @@ class PileupLine(Enum):
     BASES = 4
     QUALITYOFBASES = 5
     
-# Run the program
-if __name__ == '__main__':
+def compareFunction():
     result_file = open(dir_path + Constants.kVCF_RESULT, "a+")
     result_file.seek(0)
     result_file.truncate()
