@@ -5,18 +5,30 @@ You need to run variant_calling.py scrypt with appropriate option:
 -c is used for comparison
 -h is for help
 
-"""Usage: variant_calling.py [-vch]  ...
+Usage: 
+
+       variant_calling.py [-vch]  ...
+       
        variant_calling.py [-th] [testType] ...
-        
+       
 Arguments:
+
   1 variantCallingCore test
+  
   2 variantCalling test
+  
   3 addVarinatToIntVcArray test
+  
 Options:
-  -h       help
+
+  -h       help 
+  
   -v       execute variant calling
+  
   -t Argument       execute tests
+  
   -c       compare results
+  
 """
 
 Result of variant calling algortihm will be written in output/VCF_impl.vcf file.
