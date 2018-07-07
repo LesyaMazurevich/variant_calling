@@ -154,6 +154,8 @@ def variantCalling():
 # Run the program
 if __name__ == '__main__':
     arguments = docopt(__doc__)
+    if arguments['-c'] == 0 and arguments['-h'] == 0 and arguments['-t'] == None and arguments['-v'] == 0:
+        print("You can use help option -h for more info...")
     if arguments['-c']:
         compare.compareFunction()
     if arguments['-t']:
