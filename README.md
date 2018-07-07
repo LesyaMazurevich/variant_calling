@@ -2,10 +2,10 @@
 
 After running variant_calling.py scrypt, you need to enter appropriate value to continue:
 
-1 - execute variant calling algorithm;
-2 - execute variantCallingCore function test;
-3 - execute variantCalling function test;
-4 - execute addVariantToIncArray function test;
+"1" - execute variant calling algorithm
+"2" - execute variantCallingCore function test
+"3" - execute variantCalling function test
+"4" - execute addVariantToIncArray function test
 
 Result of variant calling algortihm will be written in VCF_impl.vcf file.
 
