@@ -1,13 +1,22 @@
+"""Usage: test.py (-h --help)  ...
+       test.py --compare (<vcf_paths>) ...
+       
+Options:
+  -h --help                            | help
+  -compare vcf_impl_path vcf_ref_path  | execute comparison with entered path's 
+                                       | to implemented and referent vcf files 
+                                       | in that order
+"""
+
 import os 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 from enum import Enum
 import math
 import sys
+from docopt import docopt
 
 ################# CONSTANTS #################
 class Constants(object):
-    kVCF_PATH = '\\output\VCF_impl.vcf'
-    kVCF_SAMTOOLS_PATH = '\\resources\VCF_ref.vcf'
     kVCF_RESULT = '\\output\compare_result.txt'
     
 ############# GLOBAL VARIABLES ##############
@@ -20,13 +29,17 @@ class PileupLine(Enum):
     BASES = 4
     QUALITYOFBASES = 5
     
-def compareFunction():
+def compareFunction(vcf_path, vcf_samtools_path):
     result_file = open(dir_path + Constants.kVCF_RESULT, "a+")
     result_file.seek(0)
     result_file.truncate()
     result_file.seek(0)
     
-    with open(dir_path + Constants.kVCF_PATH) as fVCF_mine:
+    if not os.path.exists(dir_path + vcf_path):
+        print("Path of referent vcf file is not valid: " + dir_path + vcf_path)
+        exit()
+        
+    with open(dir_path + vcf_path) as fVCF_mine:
         next(fVCF_mine)
         next(fVCF_mine)
         content_mine = fVCF_mine.readlines()
@@ -34,7 +47,11 @@ def compareFunction():
         content_mine = [x.strip() for x in content_mine]
         content_mine = [x.split("\t") for x in content_mine]
         
-    with open(dir_path + Constants.kVCF_SAMTOOLS_PATH) as fVCF_samtools:
+    if not os.path.exists(dir_path + vcf_samtools_path):
+        print("Path of implemented vcf file is not valid: " + dir_path + vcf_samtools_path)
+        exit()
+        
+    with open(dir_path + vcf_samtools_path) as fVCF_samtools:
         i = 0
         while i < 117:
             next(fVCF_samtools)
@@ -59,7 +76,7 @@ def compareFunction():
         p += 1
         truePositivesFlag = False
         for y in content_mine:
-            if x[PileupLine.POSINSEQ.value] == y [PileupLine.POSINSEQ.value]:
+            if x[PileupLine.POSINSEQ.value] == y[PileupLine.POSINSEQ.value]:
                 truePositives += 1
                 truePositivesFlag = True
                 break
@@ -86,3 +103,14 @@ def compareFunction():
     del content_mine 
     del content_samtools
         
+# Run the program
+if __name__ == '__main__':
+    arguments = docopt(__doc__)
+    print(arguments)
+    vcf_path = arguments['<vcf_paths>'][0]
+    vcf_samtools_path = arguments['<vcf_paths>'][1]
+    print(vcf_path)
+    print(vcf_samtools_path)
+    compareFunction(vcf_path, vcf_samtools_path)
+    #print(arguments['<ref>'])
+    #print(arguments['<impl>'])

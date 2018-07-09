@@ -1,15 +1,9 @@
-"""Usage: variant_calling.py [-vch]  ...
-       variant_calling.py [-th] [testType] ...
+"""Usage: variant_calling.py (-h --help)  ...
+       variant_calling.py (-v <pileup_path>)  ...
         
-Arguments:
-  1 variantCallingCore test
-  2 variantCalling test
-  3 addVarinatToIntVcArray test
 Options:
-  -h       help
-  -v       execute variant calling
-  -t Argument       execute tests
-  -c       compare results
+  -h --help        | help
+  -v pileup_path   | execute variant calling on specified pileup file
 """
 import os 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -19,15 +13,13 @@ import math
 import sys
 import msvcrt
 from docopt import docopt
-import test
-import compare
 
 ################# CONSTANTS #################
 class Constants(object):
     kVCF_PATH = '\\output\VCF_impl.vcf'
     kVCF_HEADER = '##fileformat=VCFv4.2\n'
     kVCF_COLUMNS = '#CHROM\tPOS\tREF\tALT\tFORMAT\tSAMPLE_ID\n'
-    kPILEUP_FILE_PATH = '\\resources\pileup.txt'
+    #kPILEUP_FILE_PATH = '\\resources\pileup.txt'
 
 ############# GLOBAL VARIABLES ##############
 
@@ -154,13 +146,7 @@ def variantCalling():
 # Run the program
 if __name__ == '__main__':
     arguments = docopt(__doc__)
-    if arguments['-c'] == 0 and arguments['-h'] == 0 and arguments['-t'] == None and arguments['-v'] == 0:
-        print("You can use help option -h for more info...")
-    if arguments['-c']:
-        compare.compareFunction()
-    if arguments['-t']:
-        print("t = " + arguments['-t'])
-        test.testFunction(arguments['-t'])
+    print(arguments)
     if arguments['-v']:
         print("Executing variant calling algorithm...")
         print("Initialising, please wait...")
@@ -170,7 +156,10 @@ if __name__ == '__main__':
         VCFfile.seek(0)
         VCFfile.write(Constants.kVCF_HEADER)
         VCFfile.write(Constants.kVCF_COLUMNS)
-        with open(dir_path + Constants.kPILEUP_FILE_PATH) as f:
+        if not os.path.exists(dir_path + arguments['-v'][0]):
+            print("Path of pileup file is not valid: " + dir_path + arguments['-v'][0])
+            exit()
+        with open(dir_path + arguments['-v'][0]) as f:
             content = f.readlines()
             content = [x.strip() for x in content]
             content = [x.split("\t") for x in content]

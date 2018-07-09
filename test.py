@@ -1,5 +1,18 @@
+"""Usage: test.py (-h --help)  ...
+       test.py -t <testType> ...
+        
+testType:
+  1 variantCallingCore test
+  2 variantCalling test
+  3 addVarinatToIntVcArray test
+Options:
+  -h --help      | help
+  -t testType    | execute specified test
+"""
+
 import variant_calling
 import msvcrt
+from docopt import docopt
 
 def testVariantCallingCoreFunction():
     print("Executing variantCallingCore function test...")
@@ -20,9 +33,11 @@ def testVariantCallingFunction():
     print("Executing variantCalling function test...")
     incVcArray = variant_calling.variantCallingCore(["1", "336", "C", "34", "A$A$A$A$AAAA,.,.,,,..AAAAaaaa...CcTtGg+2AC", "test"])
     sum = 0
+    print(incVcArray)
     for x in incVcArray:
-        sum += incVcArray[0][0]
-    if sum != incVcArray[3][0]:
+        sum += x[0]
+    print(sum)
+    if sum != 35:
         print("Test fail...")
     if incVcArray[0][0] == 12 and incVcArray[1][0] == 2 and incVcArray[2][0] == 2 and incVcArray[3][0] == 16 and incVcArray[4][0] == 2 and incVcArray[5][0] == 1:
         print("Test run succesufully...")
@@ -47,16 +62,22 @@ def testAddVarinatToIntVcArray():
             
 def testFunction(m):
 
-    global VCFfile
+    global VCFfile  
             
-    if m == '1':
+    if str(m) == '1':
         testVariantCallingCoreFunction()
 
-    elif m == '2':
+    elif str(m) == '2':
         testVariantCallingFunction()
         
-    elif m == '3':
+    elif str(m) == '3':
         testAddVarinatToIntVcArray()
 
     else:
         print("Entered value is not allowed...")
+        
+# Run the program
+if __name__ == '__main__':
+    arguments = docopt(__doc__)
+    print(arguments)
+    testFunction(arguments['-t'][0])
